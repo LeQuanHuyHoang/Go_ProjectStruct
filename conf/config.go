@@ -7,11 +7,11 @@ type AppConfig struct {
 
 	LogFormat string `env:"LOG_FORMAT" envDefault:"text"`
 	DBHost    string `env:"DB_HOST" envDefault:"localhost"`
-	DBPort    string `env:"DB_PORT" envDefault:"3306"`
-	DBUser    string `env:"DB_USER" envDefault:"root"`
-	DBPass    string `env:"DB_PASS" envDefault:""`
-	DBName    string `env:"DB_NAME" envDefault:"go_db"`
-	EnableDB  string `env:"ENABLE_DB" envDefault:""`
+	DBPort    string `env:"DB_PORT" envDefault:"5432"`
+	DBUser    string `env:"DB_USER" envDefault:"postgres"`
+	DBPass    string `env:"DB_PASS" envDefault:"P@ssw0rd"`
+	DBName    string `env:"DB_NAME" envDefault:"intern_db"`
+	EnableDB  string `env:"ENABLE_DB" envDefault:"true"`
 
 	SecretKey string `env:"SECRET_KEY"`
 }

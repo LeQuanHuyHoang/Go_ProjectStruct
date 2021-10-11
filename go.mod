@@ -4,18 +4,19 @@ go 1.17
 
 require (
 	github.com/caarlos0/env/v6 v6.7.1
+	github.com/gin-gonic/gin v1.7.2
+	github.com/google/uuid v1.2.0
 	gitlab.com/goxp/cloud0 v1.5.0
+	gorm.io/gorm v1.21.11
 )
 
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
-	github.com/gin-gonic/gin v1.7.2 // indirect
 	github.com/go-errors/errors v1.4.0 // indirect
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator/v10 v10.6.1 // indirect
 	github.com/golang/protobuf v1.3.3 // indirect
-	github.com/google/uuid v1.2.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.8.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
@@ -40,5 +41,4 @@ require (
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 	gorm.io/driver/postgres v1.1.0 // indirect
 	gorm.io/driver/sqlite v1.1.4 // indirect
-	gorm.io/gorm v1.21.11 // indirect
 )
