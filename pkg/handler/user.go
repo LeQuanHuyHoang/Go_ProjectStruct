@@ -8,24 +8,28 @@ import (
 	"gitlab.com/goxp/cloud0/ginext"
 )
 
-type Handler struct {
-	Service *service.Service
+type UserHandler struct {
+	UserSrv service.IUserService
 }
 
-func NewHandler(srv *service.Service) *Handler {
-	return &Handler{
-		Service: srv,
+func NewUserHandler(srv service.IUserService) IUserHandler {
+	return &UserHandler{
+		UserSrv: srv,
 	}
+}
+
+type IUserHandler interface {
+	SignUp(c *ginext.Request) (*ginext.Response, error)
 }
 
 //Take request, call service to handle logic
 
-func (h *Handler) SignUp(c *ginext.Request) (*ginext.Response, error) {
-	rep := model.User{}
+func (h *UserHandler) SignUp(c *ginext.Request) (*ginext.Response, error) {
+	rep := model.UserRequest{}
 
 	c.MustBind(&rep)
 
-	rs, err := h.Service.SignUp(rep.Email, rep.Password)
+	rs, err := h.UserSrv.SignUp(rep.Email, rep.Password)
 	if err != nil {
 		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
 	}

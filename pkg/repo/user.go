@@ -11,13 +11,18 @@ type Repo struct {
 	Postgres *gorm.DB
 	//Mongodb databasemigrationservice.MongoDbSettings
 	//Mysql sql.DB
-
 }
 
-func NewRepo(pg *gorm.DB) *Repo {
-	return &Repo{
+func NewRepo(pg *gorm.DB) IRepo {
+	repo := &Repo{
 		Postgres: pg,
 	}
+	return repo
+}
+
+type IRepo interface {
+	CheckEmail(email string) (*model.User, error)
+	CreateUser(user *model.User) (*model.User, error)
 }
 
 func (h *Repo) CheckEmail(email string) (*model.User, error) {

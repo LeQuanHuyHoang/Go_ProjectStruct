@@ -8,8 +8,11 @@
             "name": "Launch Package",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "program": "${fileDirname}"
+            "mode": "debug",
+            "program": "${workspaceFolder}/cmd/server/",
+            "env": {"SECRET_KEY":"hihihihiihihihihihihihihihhihihihi"},
+            "args": ["-c", "./config.toml", "-d", "blah"],
+            "cwd": "${workspaceFolder}"
         }
     ]
 }

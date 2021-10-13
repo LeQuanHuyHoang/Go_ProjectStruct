@@ -36,13 +36,17 @@ func NewService() *Service {
 
 	userRepo := repo.NewRepo(db)
 
-	userService := srv.NewService(userRepo)
-	userHandler := handler.NewHandler(userService)
+	userService := srv.NewUserService(userRepo)
+	authService := srv.NewAuthService()
+
+	userHandler := handler.NewUserHandler(userService)
+	authHandler := handler.NewAuthHandler(userService, authService)
 
 	//Gom nhom API
 	v1Api := s.Router.Group("/api/v1")
 	v1Api.POST("/user/sign-up", ginext.WrapHandler(userHandler.SignUp))
-	v1Api.POST("/auth/login", nil)
+
+	v1Api.POST("/auth/login", ginext.WrapHandler(authHandler.Login))
 
 	migrate := handler.NewMigrationHandler(db)
 	s.Router.POST("/internal/migrate", migrate.Migrate)
