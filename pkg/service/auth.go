@@ -23,6 +23,7 @@ func NewJWTService() IJWTService {
 
 type IJWTService interface {
 	GenJWTToken(userID uuid.UUID) (string, error)
+	ValidateToken(token string) (string, error)
 }
 
 type AuthService struct {
@@ -105,4 +106,25 @@ func (s *JWTService) GenJWTToken(userID uuid.UUID) (string, error) {
 	}
 	fmt.Println(conf.LoadEnv().SecretKey)
 	return signedToken, nil
+}
+
+func (s *JWTService) ValidateToken(token string) (string, error) {
+	// validate the claims and verify the signature
+	rs, err := jwt.ParseWithClaims(
+		token,
+		&JWTService{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(conf.LoadEnv().SecretKey), nil
+		},
+	)
+	if err != nil {
+		return "", err
+	}
+	// parse the claims from the token
+	claims, ok := rs.Claims.(*JWTService)
+	if !ok {
+		return "", fmt.Errorf("could't parse claims")
+	}
+	userID := fmt.Sprintf("%v", claims.UserID)
+	return userID, nil
 }

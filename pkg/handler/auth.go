@@ -5,7 +5,6 @@ import (
 	"crawl-data/pkg/service"
 	"net/http"
 
-	"github.com/google/uuid"
 	"gitlab.com/goxp/cloud0/ginext"
 )
 
@@ -19,15 +18,6 @@ func NewAuthHandler(jwt service.IJWTService, auth service.IAuthService) *AuthHan
 		AuthSrv: auth,
 		JWTSrv:  jwt,
 	}
-}
-
-type IAuth interface {
-	CheckUserPassword(email string, password string) (*model.User, error)
-	SignUp(c *ginext.Request) (*ginext.Response, error)
-}
-
-type IJWT interface {
-	GenJWTToken(userID uuid.UUID) (string, error)
 }
 
 func (h *AuthHandler) Login(c *ginext.Request) (*ginext.Response, error) {
