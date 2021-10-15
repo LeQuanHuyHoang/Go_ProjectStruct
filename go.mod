@@ -1,14 +1,15 @@
-module crawl-data
+module project-struct
 
 go 1.17
 
 require (
 	github.com/caarlos0/env/v6 v6.7.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/gin-gonic/gin v1.7.2
-	github.com/google/uuid v1.2.0
+	github.com/gin-gonic/gin v1.7.4
+	github.com/google/uuid v1.3.0
 	gitlab.com/goxp/cloud0 v1.5.0
-	gorm.io/gorm v1.21.11
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	gorm.io/gorm v1.21.16
 )
 
 require (
@@ -36,9 +37,8 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/ugorji/go/codec v1.1.7 // indirect
-	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
-	golang.org/x/sys v0.0.0-20210423082822-04245dca01da // indirect
-	golang.org/x/text v0.3.6 // indirect
+	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
+	golang.org/x/text v0.3.3 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 	gorm.io/driver/postgres v1.1.0 // indirect
 	gorm.io/driver/sqlite v1.1.4 // indirect

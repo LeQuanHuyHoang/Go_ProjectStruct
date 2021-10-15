@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"crawl-data/pkg/service"
-	"fmt"
 	"net/http"
+	"project-struct/pkg/model"
+	"project-struct/pkg/service"
 	"strings"
 
 	"gitlab.com/goxp/cloud0/ginext"
@@ -23,13 +23,14 @@ func NewUserHandler(srv service.IUserService, jwt service.IJWTService) IUserHand
 
 type IUserHandler interface {
 	Profile(c *ginext.Request) (*ginext.Response, error)
+	Update(c *ginext.Request) (*ginext.Response, error)
+	Delete(c *ginext.Request) (*ginext.Response, error)
 }
 
 //Take request, call service to handle logic
 
 func (h *UserHandler) Profile(c *ginext.Request) (*ginext.Response, error) {
 	authHeader := c.GinCtx.Request.Header.Get("Authorization")
-	fmt.Println(authHeader)
 	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
 	userID, err := h.JWTSrv.ValidateToken(authHeader)
 	if err != nil {
@@ -40,4 +41,33 @@ func (h *UserHandler) Profile(c *ginext.Request) (*ginext.Response, error) {
 		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
 	}
 	return ginext.NewResponseData(http.StatusOK, rs), nil
+}
+
+func (h *UserHandler) Update(c *ginext.Request) (*ginext.Response, error) {
+	rep := model.UserUpdate{}
+	c.MustBind(&rep)
+	authHeader := c.GinCtx.Request.Header.Get("Authorization")
+	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
+	userID, err := h.JWTSrv.ValidateToken(authHeader)
+	if err != nil {
+		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
+	}
+	rs, err := h.UserSrv.Update(userID, rep.NewPassword)
+	if err != nil {
+		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
+	}
+	return ginext.NewResponseData(http.StatusOK, rs.Password), nil
+}
+
+func (h *UserHandler) Delete(c *ginext.Request) (*ginext.Response, error) {
+	authHeader := c.GinCtx.Request.Header.Get("Authorization")
+	authHeader = strings.TrimPrefix(authHeader, "Bearer ")
+	userID, err := h.JWTSrv.ValidateToken(authHeader)
+	if err != nil {
+		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
+	}
+	if h.UserSrv.Delete(userID) != nil {
+		return nil, ginext.NewError(http.StatusBadRequest, err.Error())
+	}
+	return ginext.NewResponseData(http.StatusOK, nil), nil
 }

@@ -1,11 +1,11 @@
 package service
 
 import (
-	"crawl-data/conf"
-	"crawl-data/pkg/model"
-	"crawl-data/pkg/repo"
-	"crawl-data/pkg/utils"
 	"fmt"
+	"project-struct/conf"
+	"project-struct/pkg/model"
+	"project-struct/pkg/repo"
+	"project-struct/pkg/utils"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -57,10 +57,9 @@ func (s *AuthService) SignUp(email string, password string) (*model.User, error)
 
 	//create user
 
-	hashpassword := password + utils.SystemHashKey
+	hashpassword, _ := utils.HashPassword(password)
 	newUser := &model.User{
-		Email: email,
-		//Ma hoa pass trc
+		Email:    email,
 		Password: hashpassword,
 	}
 
@@ -81,8 +80,8 @@ func (s *AuthService) CheckUserPassword(email string, password string) (*model.U
 
 	//check request password == user.password
 	//Ma hoa pass
-	hashpassword := password + utils.SystemHashKey
-	if hashpassword != user.Password {
+	checkhashpassword := utils.CheckPassword(user.Password, password)
+	if !checkhashpassword {
 		return nil, fmt.Errorf("wrong password")
 	}
 	//pass correct

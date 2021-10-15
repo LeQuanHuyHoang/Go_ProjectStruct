@@ -1,8 +1,9 @@
 package service
 
 import (
-	"crawl-data/pkg/model"
-	"crawl-data/pkg/repo"
+	"project-struct/pkg/model"
+	"project-struct/pkg/repo"
+	"project-struct/pkg/utils"
 )
 
 type UserService struct {
@@ -17,6 +18,8 @@ func NewUserService(repo repo.IRepo) IUserService {
 
 type IUserService interface {
 	Profile(userID string) (*model.User, error)
+	Update(userID string, newpass string) (*model.User, error)
+	Delete(userID string) error
 }
 
 func (s *UserService) Profile(userID string) (*model.User, error) {
@@ -25,4 +28,21 @@ func (s *UserService) Profile(userID string) (*model.User, error) {
 		return nil, err
 	}
 	return userProfile, nil
+}
+
+func (s *UserService) Update(userID string, newpass string) (*model.User, error) {
+	hashpass, _ := utils.HashPassword(newpass)
+	userupdate, err := s.Repo.UpdateUser(userID, hashpass)
+	if err != nil {
+		return nil, err
+	}
+	return userupdate, nil
+}
+
+func (s *UserService) Delete(userID string) error {
+	err := s.Repo.Delete(userID)
+	if err != nil {
+		return err
+	}
+	return nil
 }

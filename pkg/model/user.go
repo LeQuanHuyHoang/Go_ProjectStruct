@@ -16,4 +16,8 @@ type (
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
+
+	UserUpdate struct {
+		NewPassword string `json:"newpassword"`
+	}
 )

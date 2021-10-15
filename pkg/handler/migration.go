@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"crawl-data/pkg/model"
+	"project-struct/pkg/model"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"

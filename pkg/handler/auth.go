@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"crawl-data/pkg/model"
-	"crawl-data/pkg/service"
 	"net/http"
+	"project-struct/pkg/model"
+	"project-struct/pkg/service"
 
 	"gitlab.com/goxp/cloud0/ginext"
 )
@@ -38,7 +38,6 @@ func (h *AuthHandler) Login(c *ginext.Request) (*ginext.Response, error) {
 
 func (h *AuthHandler) SignUp(c *ginext.Request) (*ginext.Response, error) {
 	rep := model.UserRequest{}
-
 	c.MustBind(&rep)
 
 	rs, err := h.AuthSrv.SignUp(rep.Email, rep.Password)

@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
-	"crawl-data/conf"
-	"crawl-data/pkg/route"
+	"project-struct/conf"
+	"project-struct/pkg/route"
+
+	"fmt"
 	"os"
 
 	"gitlab.com/goxp/cloud0/logger"
@@ -27,6 +29,7 @@ func main() {
 
 	_ = os.Setenv("SECRET_KEY", conf.LoadEnv().SecretKey)
 
+	fmt.Println(conf.LoadEnv().SecretKey)
 	logger.Init(APPNAME)
 
 	app := route.NewService()

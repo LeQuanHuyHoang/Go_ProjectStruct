@@ -2,11 +2,13 @@
 package route
 
 import (
-	"crawl-data/pkg/handler"
-	"crawl-data/pkg/repo"
-	srv "crawl-data/pkg/service"
+	"project-struct/pkg/handler"
+	"project-struct/pkg/repo"
+	srv "project-struct/pkg/service"
+	"project-struct/pkg/utils"
 
 	"github.com/caarlos0/env/v6"
+	"github.com/gin-gonic/gin"
 	"gitlab.com/goxp/cloud0/ginext"
 	"gitlab.com/goxp/cloud0/service"
 )
@@ -45,10 +47,13 @@ func NewService() *Service {
 
 	//Gom nhom API
 	v1Api := s.Router.Group("/api/v1")
+	v1Api.Use(gin.LoggerWithFormatter(utils.LogFormatter))
 	v1Api.POST("/auth/sign-up", ginext.WrapHandler(authHandler.SignUp))
 	v1Api.POST("/auth/login", ginext.WrapHandler(authHandler.Login))
 
 	v1Api.GET("/user/info", ginext.WrapHandler(userHandler.Profile))
+	v1Api.PUT("/user/update-password", ginext.WrapHandler(userHandler.Update))
+	v1Api.DELETE("/user/delete", ginext.WrapHandler(userHandler.Delete))
 
 	migrate := handler.NewMigrationHandler(db)
 	s.Router.POST("/internal/migrate", migrate.Migrate)
